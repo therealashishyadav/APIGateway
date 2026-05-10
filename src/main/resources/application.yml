@@ -1,19 +1,15 @@
 spring:
   application:
     name: APIGATEWAY
-
   cloud:
     gateway:
-
       globalcors:
         add-to-simple-url-handler-mapping: true
-
         corsConfigurations:
           '[/**]':
             allowedOrigins:
               - "http://localhost:4200"
               - "https://nookly-frontend-hslj.vercel.app"
-
             allowedMethods:
               - GET
               - POST
@@ -21,14 +17,10 @@ spring:
               - DELETE
               - PATCH
               - OPTIONS
-
             allowedHeaders: "*"
-
             allowCredentials: true
-
       routes:
-
-        # Account API
+        # ACCOUNT SERVICE
         - id: account-service
           uri: lb://ACCOUNT-SERVICE
           predicates:
@@ -36,7 +28,7 @@ spring:
           filters:
             - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
 
-        # Add PG API
+        # ADD PG SERVICE
         - id: add-pg-service
           uri: lb://ADD-PG-SERVICE
           predicates:
@@ -44,7 +36,7 @@ spring:
           filters:
             - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
 
-        # PG Details API
+        # PG DETAILS SERVICE
         - id: pg-details-service
           uri: lb://PG-DETAILS-SERVICE
           predicates:
@@ -52,7 +44,7 @@ spring:
           filters:
             - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
 
-        # Inquiry API
+        # INQUIRY SERVICE
         - id: inquiry-service
           uri: lb://INQUIRY-SERVICE
           predicates:
@@ -66,11 +58,17 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
-
+      defaultZone: ${EUREKA_URL:https://nookeureka-server.onrender.com/eureka/}
     register-with-eureka: true
     fetch-registry: true
-
   instance:
-    hostname: ${RENDER_EXTERNAL_HOSTNAME:localhost}
-    prefer-ip-address: true
+    hostname: ${RENDER_EXTERNAL_HOSTNAME:apigateway-x0ku.onrender.com}
+    prefer-ip-address: false
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
