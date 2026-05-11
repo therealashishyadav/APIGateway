@@ -21,34 +21,29 @@ spring:
             allowCredentials: true
       routes:
         - id: account-service
-          uri: https://your-account-service.onrender.com   # <-- CHANGE THIS
+          uri: ${ACCOUNT_SERVICE_URL:http://localhost:8081}
           predicates:
             - Path=/api/v1/auth/**,/api/v1/owner/**,/api/v1/user/**,/api/v1/admin/**
-          filters:
-            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
 
         - id: add-pg-service
-          uri: https://your-add-pg-service.onrender.com    # <-- CHANGE THIS
+          uri: ${ADD_PG_SERVICE_URL:http://localhost:8084}
           predicates:
             - Path=/api/pg-listings/**
-          filters:
-            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
-
 
         - id: pg-details-service
-          uri: https://your-pg-details-service.onrender.com  # <-- CHANGE THIS
+          uri: ${PG_DETAILS_SERVICE_URL:http://localhost:8082}
           predicates:
             - Path=/pg/**,/addPGWithFiles,/my-pgs,/search
-          filters:
-            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
-
 
         - id: inquiry-service
-          uri: https://nookinquiry.onrender.com            # <-- already known
+          uri: ${INQUIRY_SERVICE_URL:https://nooklyinquiry.onrender.com}
           predicates:
             - Path=/inquiry/**
-          filters:
-            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
 
 server:
   port: ${PORT:8080}
+
+# No Eureka needed
+eureka:
+  client:
+    enabled: false
