@@ -20,33 +20,31 @@ spring:
             allowedHeaders: "*"
             allowCredentials: true
       routes:
-        # ACCOUNT SERVICE
         - id: account-service
-          uri: lb://ACCOUNT-SERVICE
+          uri: https://your-account-service.onrender.com   # <-- CHANGE THIS
           predicates:
             - Path=/api/v1/auth/**,/api/v1/owner/**,/api/v1/user/**,/api/v1/admin/**
           filters:
             - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
 
-        # ADD PG SERVICE
         - id: add-pg-service
-          uri: lb://ADD-PG-SERVICE
+          uri: https://your-add-pg-service.onrender.com    # <-- CHANGE THIS
           predicates:
             - Path=/api/pg-listings/**
           filters:
             - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
 
-        # PG DETAILS SERVICE
+
         - id: pg-details-service
-          uri: lb://PG-DETAILS-SERVICE
+          uri: https://your-pg-details-service.onrender.com  # <-- CHANGE THIS
           predicates:
             - Path=/pg/**,/addPGWithFiles,/my-pgs,/search
           filters:
             - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
 
-        # INQUIRY SERVICE
+
         - id: inquiry-service
-          uri: lb://INQUIRY-SERVICE
+          uri: https://nookinquiry.onrender.com            # <-- already known
           predicates:
             - Path=/inquiry/**
           filters:
@@ -54,21 +52,3 @@ spring:
 
 server:
   port: ${PORT:8080}
-
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_URL:https://nookeureka-server.onrender.com/eureka/}
-    register-with-eureka: true
-    fetch-registry: true
-  instance:
-    hostname: ${RENDER_EXTERNAL_HOSTNAME:apigateway-x0ku.onrender.com}
-    prefer-ip-address: false
-    lease-renewal-interval-in-seconds: 10
-    lease-expiration-duration-in-seconds: 30
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info
