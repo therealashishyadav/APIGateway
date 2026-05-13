@@ -21,17 +21,17 @@ spring:
             allowCredentials: true
       routes:
         - id: account-service
-          uri: ${ACCOUNT_SERVICE_URL:http://localhost:8081}
+          uri: ${ACCOUNT_SERVICE_URL:https://nookaccount.onrender.com}
           predicates:
             - Path=/api/v1/auth/**,/api/v1/owner/**,/api/v1/user/**,/api/v1/admin/**
 
         - id: add-pg-service
-          uri: ${ADD_PG_SERVICE_URL:http://localhost:8084}
+          uri: ${ADD_PG_SERVICE_URL:https://nookaddpg.onrender.com/}
           predicates:
             - Path=/api/pg-listings/**
 
         - id: pg-details-service
-          uri: ${PG_DETAILS_SERVICE_URL:http://localhost:8082}
+          uri: ${PG_DETAILS_SERVICE_URL:https://nookpgdetails.onrender.com}
           predicates:
             - Path=/pg/**,/addPGWithFiles,/my-pgs,/search
 
