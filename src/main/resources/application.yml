@@ -18,6 +18,7 @@ spring:
             allowedOrigins:
               - "http://localhost:4200"
               - "https://nookly-frontend-hslj.vercel.app"
+              - "https://nookly-frontend-hslj-pkjxldl2x-therealashishyadav1.vercel.app/contact"
             allowedMethods:
               - GET
               - POST
