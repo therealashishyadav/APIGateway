@@ -17,7 +17,7 @@ spring:
           '[/**]':
             allowedOrigins:
               - "http://localhost:4200"
-              - "'https://cribup.vercel.app"
+              - "https://cribup.vercel.app/"
             allowedMethods:
               - GET
               - POST
