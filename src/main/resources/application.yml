@@ -18,6 +18,8 @@ spring:
             allowedOrigins:
               - "http://localhost:4200"
               - "https://cribup.vercel.app/"
+              - "https://nookly-git-main-therealashishyadav1.vercel.app"
+              - "https://nookly-4kojk0tjf-therealashishyadav1.vercel.app"
             allowedMethods:
               - GET
               - POST
@@ -51,7 +53,6 @@ spring:
 
 server:
   port: ${PORT:8080}
-
 
 eureka:
   client:
