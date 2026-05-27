@@ -10,25 +10,7 @@ spring:
       httpclient:
         connect-timeout: 5000
         response-timeout: 120s
-
-      globalcors:
-        add-to-simple-url-handler-mapping: true
-        corsConfigurations:
-          '[/**]':
-            allowedOrigins:
-              - "http://localhost:4200"
-              - "https://cribup.vercel.app/"
-              - "https://nookly-git-main-therealashishyadav1.vercel.app"
-              - "https://nookly-4kojk0tjf-therealashishyadav1.vercel.app"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - PATCH
-              - OPTIONS
-            allowedHeaders: "*"
-            allowCredentials: true
+      # ← globalcors block completely removed
 
       routes:
         - id: account-service
