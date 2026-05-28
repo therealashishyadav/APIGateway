@@ -10,7 +10,23 @@ spring:
       httpclient:
         connect-timeout: 5000
         response-timeout: 120s
-      # ← globalcors block completely removed
+
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:4200"
+              - "https://nookly-frontend-hslj.vercel.app"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
 
       routes:
         - id: account-service
@@ -35,6 +51,7 @@ spring:
 
 server:
   port: ${PORT:8080}
+
 
 eureka:
   client:
