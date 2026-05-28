@@ -19,7 +19,6 @@ public class CorsConfig {
 		config.addAllowedOrigin("https://nookly-frontend-hslj.vercel.app");
 
 		config.addAllowedOriginPattern("https://nookly-*.vercel.app");
-		config.addAllowedOriginPattern("https://cribup-*.vercel.app");
 		config.addAllowedOriginPattern("https://*-therealashishyadav1.vercel.app");
 
 		config.addAllowedMethod("*");
