@@ -19,11 +19,11 @@ public class KeepAliveScheduler {
     private RestTemplate restTemplate;
 
     private static final List<String> BACKEND_HEALTH_URLS = List.of(
-        "http://NookAccount:10000/health",
-        "http://NookPgDetails:10000/health",
-        "http://NookAddPg:10000/health",
-        "http://nooklyinquiry:10000/health"
-    );
+    	    "https://NookAccount.onrender.com/health",
+    	    "https://NookPgDetails.onrender.com/health",
+    	    "https://NookAddPg.onrender.com/health",
+    	    "https://nooklyinquiry.onrender.com/health"
+    	);
 
     @Scheduled(fixedDelay = 300_000)
     public void keepBackendsAlive() {
