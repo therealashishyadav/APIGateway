@@ -1,5 +1,4 @@
 package com.ApiGateway;
-package com.ApiGateway.scheduler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
