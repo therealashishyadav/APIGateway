@@ -20,6 +20,7 @@ public class CorsConfig {
 
 		config.addAllowedOriginPattern("https://nookly-*.vercel.app");
 		config.addAllowedOriginPattern("https://*-therealashishyadav1.vercel.app");
+		
 
 		config.addAllowedMethod("*");
 
