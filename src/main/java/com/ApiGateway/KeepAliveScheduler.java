@@ -8,47 +8,53 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
-
 @Component
 public class KeepAliveScheduler {
 
-    private static final Logger log = LoggerFactory.getLogger(KeepAliveScheduler.class);
+	private static final Logger log = LoggerFactory.getLogger(KeepAliveScheduler.class);
 
-    @Autowired
-    private RestTemplate restTemplate;
+	@Autowired
+	private RestTemplate restTemplate;
 
-    // Use public Render URLs
-    private static final List<String> BACKEND_HEALTH_URLS = List.of(
-    	    "https://nookaccount.onrender.com/health",
-    	    "https://nookpgdetails.onrender.com/health",
-    	    "https://nookaddpg.onrender.com/health",
-    	    "https://nooklyinquiry.onrender.com/health"
-    	);
+	// Service URLs (public Render endpoints)
+	private static final String ACCOUNT_URL = "https://nookaccount.onrender.com/health";
+	private static final String PG_DETAILS_URL = "https://nookpgdetails.onrender.com/health";
+	private static final String ADD_PG_URL = "https://nookaddpg.onrender.com/health";
+	private static final String INQUIRY_URL = "https://nooklyinquiry.onrender.com/health";
 
-    // Run every 10 minutes (600,000 ms) to avoid rate limiting
-    @Scheduled(fixedDelay = 600_000)
-    public void keepBackendsAlive() {
-        log.info("Starting keep-alive ping for backend services");
-        for (String url : BACKEND_HEALTH_URLS) {
-            try {
-                ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-                if (response.getStatusCode().is2xxSuccessful()) {
-                    log.info("Keep-alive OK: {}", url);
-                } else {
-                    log.warn("Keep-alive returned {} for {}", response.getStatusCode(), url);
-                }
-            } catch (Exception e) {
-                log.error("Keep-alive failed for {}: {}", url, e.getMessage());
-            }
+	// Every 15 minutes (900,000 ms). Stagger start times by 0s, 225s, 450s, 675s
+	// 225 seconds = 225,000 ms, 450 = 450,000, 675 = 675,000
 
-            // Wait 2 seconds before next request to avoid burst rate limiting
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ie) {
-                Thread.currentThread().interrupt();
-                log.warn("Delay interrupted");
-            }
-        }
-    }
+	@Scheduled(fixedDelay = 900_000, initialDelay = 0)
+	public void pingAccount() {
+		pingService(ACCOUNT_URL, "Account");
+	}
+
+	@Scheduled(fixedDelay = 900_000, initialDelay = 225_000)
+	public void pingPgDetails() {
+		pingService(PG_DETAILS_URL, "PgDetails");
+	}
+
+	@Scheduled(fixedDelay = 900_000, initialDelay = 450_000)
+	public void pingAddPg() {
+		pingService(ADD_PG_URL, "AddPg");
+	}
+
+	@Scheduled(fixedDelay = 900_000, initialDelay = 675_000)
+	public void pingInquiry() {
+		pingService(INQUIRY_URL, "Inquiry");
+	}
+
+	private void pingService(String url, String serviceName) {
+		try {
+			ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+			if (response.getStatusCode().is2xxSuccessful()) {
+				log.info("Keep-alive OK for {}: {}", serviceName, url);
+			} else {
+				log.warn("Keep-alive for {} returned {}: {}", serviceName, response.getStatusCode(), url);
+			}
+		} catch (Exception e) {
+			log.error("Keep-alive failed for {} ({}): {}", serviceName, url, e.getMessage());
+		}
+	}
 }
