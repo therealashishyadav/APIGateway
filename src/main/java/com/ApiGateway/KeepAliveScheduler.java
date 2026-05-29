@@ -1,4 +1,5 @@
 package com.ApiGateway;
+package com.ApiGateway.scheduler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ public class KeepAliveScheduler {
     @Autowired
     private RestTemplate restTemplate;
 
+    // Use public Render URLs
     private static final List<String> BACKEND_HEALTH_URLS = List.of(
     	    "https://nookaccount.onrender.com/health",
     	    "https://nookpgdetails.onrender.com/health",
@@ -25,10 +27,10 @@ public class KeepAliveScheduler {
     	    "https://nooklyinquiry.onrender.com/health"
     	);
 
-    @Scheduled(fixedDelay = 300_000)
+    // Run every 10 minutes (600,000 ms) to avoid rate limiting
+    @Scheduled(fixedDelay = 600_000)
     public void keepBackendsAlive() {
         log.info("Starting keep-alive ping for backend services");
-        
         for (String url : BACKEND_HEALTH_URLS) {
             try {
                 ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
@@ -39,6 +41,14 @@ public class KeepAliveScheduler {
                 }
             } catch (Exception e) {
                 log.error("Keep-alive failed for {}: {}", url, e.getMessage());
+            }
+
+            // Wait 2 seconds before next request to avoid burst rate limiting
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+                log.warn("Delay interrupted");
             }
         }
     }
