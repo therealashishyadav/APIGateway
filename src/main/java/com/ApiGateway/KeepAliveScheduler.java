@@ -19,9 +19,9 @@ public class KeepAliveScheduler {
     private RestTemplate restTemplate;
 
     private static final List<String> BACKEND_HEALTH_URLS = List.of(
-    	    "https://NookAccount.onrender.com/health",
-    	    "https://NookPgDetails.onrender.com/health",
-    	    "https://NookAddPg.onrender.com/health",
+    	    "https://nookaccount.onrender.com/health",
+    	    "https://nookpgdetails.onrender.com/health",
+    	    "https://nookaddpg.onrender.com/health",
     	    "https://nooklyinquiry.onrender.com/health"
     	);
 
