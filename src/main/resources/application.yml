@@ -33,7 +33,7 @@ spring:
             - Path=/inquiry/**
 
         - id: tenant-service
-          uri: ${TENANT_SERVICE_URL:https://tennet.onrender.com/}
+          uri: ${TENANT_SERVICE_URL:https://tenent-ah2r.onrender.com/}
           predicates:
             - Path=/api/tenants/**
 
