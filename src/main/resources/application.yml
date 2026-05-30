@@ -32,6 +32,11 @@ spring:
           predicates:
             - Path=/inquiry/**
 
+        - id: tenant-service
+          uri: ${TENANT_SERVICE_URL:https://tennet.onrender.com/}
+          predicates:
+            - Path=/api/tenants/**
+
 server:
   port: ${PORT:8080}
 
