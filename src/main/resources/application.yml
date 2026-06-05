@@ -37,9 +37,11 @@ spring:
           predicates:
             - Path=/api/tenants/**
 
+
+        - id: management-service
+          uri: ${MANAGEMENT_SERVICE_URL:https://management-nqtn.onrender.com/}
+          predicates:
+            - Path=/api/management/**
+
 server:
   port: ${PORT:8080}
-
-eureka:
-  client:
-    enabled: false
